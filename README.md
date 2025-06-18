@@ -1,6 +1,6 @@
 # 314 Detector
 
-![314 Detector in action](https://raw.githubusercontent.com/314-Detector/314-Detector/main/readme-assets/preview.png)
+![314 Detector in action](https://raw.githubusercontent.com/TRGRally/314-detector/refs/heads/main/readme-assets/preview.png)
 
 (it goes "ding")
 
