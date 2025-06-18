@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+body {
+    margin: 0;
+    padding: 1rem;
+    font-family: system-ui, sans-serif;
+    background: #f8f8f8;
+    color: #333;
+    min-width: 240px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.version {
+    font-size: 0.75rem;
+    color: #777;
+    line-height: 1;
+}
+
+h1 {
+    font-size: 1rem;
+    line-height: 1;
+    margin-top: 0;
+    font-weight: 600;
+    color: #111;
+}
+
+
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.1s ease;
+    border-radius: 4px;
+    line-height: 0.5;
+}
+
+.setting-label {
+    margin-right: 1rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* toggle switch adapted from https://www.w3schools.com/howto/howto_css_switch.asp */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 1.625rem;
+    height: 1rem;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 1000px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 0.5rem;
+    width: 0.5rem;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.1s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:checked+.slider:before {
+    height: 0.75rem;
+    width: 0.75rem;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+}
+
+input:focus+.slider {
+    /* box-shadow: 0 0 1px #2196F3; */
+}
+
+input:checked+.slider:before {
+    transform: translateX(calc(1.625rem / 2 - 3px));
+}

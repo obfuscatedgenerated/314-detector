@@ -1,0 +1,47 @@
+{
+    "manifest_version": 3,
+    "name": "314 Detector",
+    "version": "1.0",
+    "description": "Detects the number 314 on web pages",
+    "icons": {
+        "16": "icons/314_icon_16.png",
+        "32": "icons/314_icon_32.png",
+        "48": "icons/314_icon_48.png",
+        "128": "icons/314_icon_128.png"
+    },
+    "permissions": [
+        "offscreen",
+        "storage"
+    ],
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": {
+    "16": "icons/314_icon_16.png",
+    "32": "icons/314_icon_32.png"
+  }
+    },
+    "background": {
+        "service_worker": "background/service.js"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "audio/bell_ding.mp3"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "detect314.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ]
+}
