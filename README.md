@@ -2,7 +2,15 @@
 
 ![314 Detector in action](https://raw.githubusercontent.com/TRGRally/314-detector/refs/heads/main/readme-assets/preview.png)
 
-(it goes "ding")
+It goes "ding".
+
+## How to install
+- Clone the repo
+- Go to `chrome://extensions/`
+- Enable "Developer mode" by clicking the toggle in the top right corner
+- Click "Load unpacked" in the top left corner
+- Select the folder containing the repo
+- Make sure the extension displays as "Enabled"
 
 ## Todo
 
