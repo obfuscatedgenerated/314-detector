@@ -37,20 +37,24 @@
         const frag = document.createDocumentFragment()
         let lastIndex = 0
 
-        for (let match of matches) {
+        chrome.storage.sync.get(["holyDetect"], (result) => {
+            const detectHoly = result.holyDetect ?? false;
+            // imagine using async
 
-            if (match.index > lastIndex) {
-                frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)))
-            }
+            for (let match of matches) {
 
-            let thisIsHoly = false
-            if (match[0] === true_314) {
-                thisIsHoly = true
+                if (match.index > lastIndex) {
+                    frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)))
+                }
 
-                if (!foundHoly) {
-                    // inject keyframes
-                    const style = document.createElement("style")
-                    style.textContent = `
+                let thisIsHoly = false
+                if (detectHoly && match[0] === true_314) {
+                    thisIsHoly = true
+
+                    if (!foundHoly) {
+                        // inject keyframes
+                        const style = document.createElement("style")
+                        style.textContent = `
                         @keyframes holy314 {
                             0% { background-color: yellow; color: black; }
                             100% { background-color: inherit; color: inherit; }
@@ -59,31 +63,32 @@
                             animation: holy314 1.5s infinite alternate;
                         }
                     `;
-                    document.head.appendChild(style);
+                        document.head.appendChild(style);
+                    }
+
+                    foundHoly = true
                 }
 
-                foundHoly = true
+                // CAN I GET A HIGH-LIGHT IN AN OPEN WINDOW
+                const mark = document.createElement("mark")
+                mark.textContent = match[0]
+                mark.style.backgroundColor = "yellow"
+                mark.style.color = "black"
+                mark.dataset["314"] = "" //mark it so we skip this later
+                if (thisIsHoly) {
+                    mark.dataset["314Holy"] = ""
+                }
+                frag.appendChild(mark)
+
+                lastIndex = match.index + match[0].length
             }
 
-            // CAN I GET A HIGH-LIGHT IN AN OPEN WINDOW
-            const mark = document.createElement("mark")
-            mark.textContent = match[0]
-            mark.style.backgroundColor = "yellow"
-            mark.style.color = "black"
-            mark.dataset["314"] = "" //mark it so we skip this later
-            if (thisIsHoly) {
-                mark.dataset["314Holy"] = ""
+            if (lastIndex < text.length) {
+                frag.appendChild(document.createTextNode(text.slice(lastIndex)))
             }
-            frag.appendChild(mark)
 
-            lastIndex = match.index + match[0].length
-        }
-
-        if (lastIndex < text.length) {
-            frag.appendChild(document.createTextNode(text.slice(lastIndex)))
-        }
-
-        textNode.parentNode.replaceChild(frag, textNode)
+            textNode.parentNode.replaceChild(frag, textNode)
+        });
     }
 
     function update() {
