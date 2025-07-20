@@ -1,12 +1,13 @@
 (function detect314() {
 
     //pattern allows for non word characters between the digits (e.g. 3.14, 31-4 etc.)
-    //might make a special highlight + sound for "true" 314s in the future
     const pattern = /3\W?1\W?4/g
+    const true_314 = "314"
     const unsafeTags = ["script", "style", "textarea", "input", "button", "select", "option"]
 
     const nodes = []
     let foundAny = false
+    let foundHoly = false
 
     function isSafeToMutate(node) {
         const parent = node.parentNode
@@ -18,6 +19,8 @@
     }
 
     function highlight(textNode) {
+        // walking the dom gonna find a 314
+
         //skips if parent already has a data-314 marker
         if (textNode.parentNode?.dataset?.["314"] !== undefined) {
             return
@@ -28,7 +31,9 @@
 
         if (matches.length === 0) return
         foundAny = true;
-        
+
+        // i found one 😈😈
+
         const frag = document.createDocumentFragment()
         let lastIndex = 0
 
@@ -38,11 +43,37 @@
                 frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)))
             }
 
+            let thisIsHoly = false
+            if (match[0] === true_314) {
+                thisIsHoly = true
+
+                if (!foundHoly) {
+                    // inject keyframes
+                    const style = document.createElement("style")
+                    style.textContent = `
+                        @keyframes holy314 {
+                            0% { background-color: yellow; color: black; }
+                            100% { background-color: inherit; color: inherit; }
+                        }
+                        mark[data-314-holy] {
+                            animation: holy314 1.5s infinite alternate;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+
+                foundHoly = true
+            }
+
+            // CAN I GET A HIGH-LIGHT IN AN OPEN WINDOW
             const mark = document.createElement("mark")
             mark.textContent = match[0]
             mark.style.backgroundColor = "yellow"
             mark.style.color = "black"
             mark.dataset["314"] = "" //mark it so we skip this later
+            if (thisIsHoly) {
+                mark.dataset["314Holy"] = ""
+            }
             frag.appendChild(mark)
 
             lastIndex = match.index + match[0].length
@@ -58,6 +89,7 @@
     function update() {
         nodes.length = 0
         foundAny = false
+        foundHoly = false
 
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
             acceptNode: node => {
@@ -80,7 +112,7 @@
         if (foundAny) {
             chrome.storage.sync.get(["playSound"], (result) => {
                 if (result.playSound ?? true) {
-                    chrome.runtime.sendMessage({ playSound: true })
+                    chrome.runtime.sendMessage({ playSound: true, holy: foundHoly })
                 }
             })
         }
