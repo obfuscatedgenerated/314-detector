@@ -27,7 +27,6 @@ It goes "ding".
 
 ## Todo
 
-- Differentiate between true 314s and fuzzy 314s
 - Count how many 314s you have seen
 
 *In the mean time, you might want to check out [314 Slots](https://trgrally.github.io/314-slots/)*
