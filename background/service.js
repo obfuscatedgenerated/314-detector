@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
             })
         }
 
-        chrome.runtime.sendMessage({ action: 'dingTheBell' })
+        chrome.runtime.sendMessage({ action: 'dingTheBell', holy: message.holy || false })
 
     }
 })
