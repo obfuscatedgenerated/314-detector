@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "314 Detector",
-    "version": "1.1",
+    "version": "1.2",
     "description": "Detects the number 314 on web pages",
     "icons": {
         "16": "icons/314_icon_16.png",
